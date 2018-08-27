@@ -26,8 +26,31 @@ app.get('/', function(req, res) {
 app.get('/about', function(req,res){
 	var randomFortune = 
 		fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
+
 	res.render('about', { fortune: randomFortune ,param : "cyy nodejs demo"});
 });
+var tours = [
+	{ id: 0, name: 'Hood River', price: 99.99 },
+	{ id: 1, name: 'Oregon Coast', price: 149.95 },
+	];
+
+app.get('/api/tours/:id', function(req,res){
+	var p = tours.some(function(p){ 
+		return p.id == req.params.id }
+	);
+	console.log("req.params",req.params.id);
+	if( p ) {
+		let a = "" ;
+		if( req.query.name ) a += req.query.name + " -"; 
+		if( req.query.price ) a += req.query.price; 
+		res.json({success: a});
+	} else {
+		res.json({error: 'No such tour exists.'});
+	}
+});
+
+
+
 
 // 404 catch-all handler (middleware)
 app.use(function(req, res, next){
