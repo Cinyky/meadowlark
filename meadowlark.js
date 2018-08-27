@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
 app.get('/about', function(req,res){
 	var randomFortune = 
 		fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
-	res.render('about', { fortune: randomFortune });
+	res.render('about', { fortune: randomFortune ,param : "cyy nodejs demo"});
 });
 
 // 404 catch-all handler (middleware)
