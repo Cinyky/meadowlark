@@ -4,7 +4,7 @@ var app = express();
 
 // set up handlebars view engine
 var handlebars = require('express-handlebars')
-	.create({ defaultLayout:'main' });
+	.create({ defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -23,12 +23,40 @@ var fortuneCookies = [
 app.get('/', function(req, res) {
 	res.render('home');
 });
+
+app.get('/lay', function(req, res) {
+	res.render('home',{layout: 'microsite'});
+});
+
+app.get('/nolay', function(req, res) {
+	res.render('home',{layout: null});
+});
 app.get('/about', function(req,res){
 	var randomFortune = 
 		fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
 
-	res.render('about', { fortune: randomFortune ,param : "cyy nodejs demo"});
+	res.render('about', { fortune: randomFortune ,param : "<b>cyy nodejs demo</b>"});
 });
+
+app.get('/test', function(req,res){
+	var randomFortune = 
+		fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
+
+	res.render('test', {
+			currency: {
+	           name: 'United States dollars',
+	           abbrev: 'USD',
+			}, 
+			tours: [
+	                   { name: 'Hood River', price: '$99.95' },
+	                   { name: 'Oregon Coast', price: '$159.95' },
+			],
+			specialsUrl: '/january-specials',
+			// currencies: [ 'USD', 'GBP', 'BTC' ],
+		});
+	});
+
+
 var tours = [
 	{ id: 0, name: 'Hood River', price: 99.99 },
 	{ id: 1, name: 'Oregon Coast', price: 149.95 },
