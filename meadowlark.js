@@ -75,10 +75,10 @@ app.use('/upload', function(req, res, next){
     var now = Date.now();
     jqupload.fileHandler({
         uploadDir: function(){
-            return __dirname + '/public/uploads/' + now;
+            return __dirname + '/public/uploads/';
         },
         uploadUrl: function(){
-            return '/uploads/' + now;
+            return '/uploads/';
         },
     })(req, res, next);
 });
