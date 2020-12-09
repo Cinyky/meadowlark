@@ -1,17 +1,16 @@
 <div class="formContainer">
     <form class="form-horizontal newsletterForm" role="form" 
-            action="/parse" method="POST">
-        <input type="hidden" name="_csrf" value="{{csrf}}">
+            action="/parseTask" method="POST">
+        {{task}}
         <div class="form-group">
-            <label for="fieldName" class="col-sm-2 control-label">ID</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" 
-                id="fieldName" name="name">
+                <label for="fieldName" class="col-sm-2 control-label">需要解析的URL：</label>
+                <input type="text" class="form-control" id="fieldName" name="name">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-4">
-                <button type="submit" class="btn btn-default">解析</button>
+                <button type="submit" class="btn btn-default">提交任务</button>
             </div>
         </div>
     </form>
@@ -35,7 +34,7 @@
                 $.ajax({
                     url: action,
                     type: 'POST',
-					data: {id: txt},
+					data: {url: txt},
                     success: function(data){
                         if(data.success){
                             $resultContainer.html('<pre>' + data.result + '</pre>');

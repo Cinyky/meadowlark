@@ -39,4 +39,13 @@ redis.hget = async(key, field)=>{
     return doc;
 }
 
+redis.hset = async(key, field)=>{
+    doc = await new Promise((resolve)=>{
+        redis_client.hset(key, field, function(err,res){
+            return resolve(res);
+        });
+    });
+    return doc;
+}
+
 module.exports = redis;

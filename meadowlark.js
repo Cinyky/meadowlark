@@ -172,8 +172,35 @@ app.post('/parse', function(req, res){
 
 app.get('/parseJS', function(req, res){
     // we will learn about CSRF later...for now, we just
-    // provide a dummy value
-    res.render('parseJS', { csrf: 'CSRF token goes here' });
+	// provide a dummy value
+	Cache.get("Task").then(function(resp){
+		console.log("Task resp: " + resp);
+		if (resp) {
+			res.render('parseJS', { task: resp });
+		} else {
+			res.render('parseJS', { task: resp });
+		}
+	})
+});
+
+app.post('/parseTask', function(req, res){
+	var param = req.body;
+	console.log(param);
+    if(req.xhr || req.accepts('json,html')==='json'){
+		// if there were an error, we would send { error: 'error description' }
+		return Cache.get("Task").then(function(resp){
+			console.log("param.url: " + param.url + " resp: " + resp);
+			if (resp) {
+				res.send({ success: true , result: "任务["+param.url+"]已经提交，请耐心等待"});
+			} else {
+				Cache.set("Task", param.url);
+				res.send({ success: true , result: "任务 ["+param.url+"] 提交成功"});
+			}
+		});
+    } else {
+        // if there were an error, we would redirect to an error page
+        res.redirect(303, '/thank-you');
+    }
 });
 
 app.get('/jquery-test', function(req, res){
