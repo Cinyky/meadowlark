@@ -1,6 +1,7 @@
 var express = require('express'),
 	formidable = require('formidable'),
 	jqupload = require('jquery-file-upload-middleware');
+const child_process = require('child_process');
 
 Cache = require('./cache')
 var app = express();
@@ -169,13 +170,12 @@ app.post('/parse', function(req, res){
         res.redirect(303, '/thank-you');
     }
 });
+
 app.get('/parseJS', function(req, res){
     // we will learn about CSRF later...for now, we just
 	// provide a dummy value
 	Cache.hgetall("Task").then(function(resp){
 		console.log(`hgetall:${JSON.stringify(resp)}`);
-		resp.taskTimeStr = new Date(parseInt(resp.time).toLocaleString().replace(/:\d{1,2}$/,' ');
-		console.log(resp.taskTimeStr)
 		if (resp) {
 			res.render('parseJS', resp);
 		} else {
@@ -197,6 +197,20 @@ app.post('/parseTask', function(req, res){
 				Cache.hset("Task", "url", param.url);
 				Cache.hset("Task", "time", Date.now());
 				res.send({ success: true , result: "任务 ["+param.url+"] 提交成功"});
+				// var workerProcess = child_process.spawn('/Users/yuyunchen/.conda/envs/python3/bin/python', ['/Users/yuyunchen/PycharmProjects/betanewTools/parseAST/parseServer.py']);
+ 
+				// workerProcess.stdout.on('data', function (data) {
+				// 	console.log('stdout: ' + data);
+				// });
+				
+				// workerProcess.stderr.on('data', function (data) {
+				// 	console.log('stderr: ' + data);
+				// });
+				
+				// workerProcess.on('close', function (code) {
+				// 	console.log('子进程已退出，退出码 '+code);
+				// });
+				// /Users/yuyunchen/.conda/envs/python3/bin/python /Users/yuyunchen/PycharmProjects/betanewTools/parseAST/parseServer.py
 			}
 		});
     } else {
