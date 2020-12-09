@@ -57,4 +57,13 @@ redis.hset = async(key, field, value)=>{
     return doc;
 }
 
+redis.expire = async(key, seconds)=>{
+    doc = await new Promise((resolve)=>{
+        redis_client.expire(key, seconds, function(err,res){
+            return resolve(res);
+        });
+    });
+    return doc;
+}
+
 module.exports = redis;

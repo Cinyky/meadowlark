@@ -196,6 +196,7 @@ app.post('/parseTask', function(req, res){
 			} else {
 				Cache.hset("Task", "url", param.url);
 				Cache.hset("Task", "time", Date.now());
+				Cache.expire("Task", 60)
 				res.send({ success: true , result: "任务 ["+param.url+"] 提交成功"});
 				var workerProcess = child_process.spawn('/Users/yuyunchen/.conda/envs/python3/bin/python', ['/Users/yuyunchen/PycharmProjects/betanewTools/parseAST/parseServer.py']);
  
