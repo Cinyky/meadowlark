@@ -46,7 +46,7 @@
                         } else {
                             $resultContainer.html('There was a problem.');
                         }
-                        setTimeout(location.reload(), 2000)
+                        setInterval(location.reload(), 2000)
                     },
                     error: function(){
                         $resultContainer.html('There was a problem.');
@@ -54,7 +54,9 @@
                 });
             });
         });
-
+        {{#if url}}
+            setInterval(location.reload(), 2000)
+        {{/if}}
 
 
     </script>

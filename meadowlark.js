@@ -197,19 +197,19 @@ app.post('/parseTask', function(req, res){
 				Cache.hset("Task", "url", param.url);
 				Cache.hset("Task", "time", Date.now());
 				res.send({ success: true , result: "任务 ["+param.url+"] 提交成功"});
-				// var workerProcess = child_process.spawn('/Users/yuyunchen/.conda/envs/python3/bin/python', ['/Users/yuyunchen/PycharmProjects/betanewTools/parseAST/parseServer.py']);
+				var workerProcess = child_process.spawn('/Users/yuyunchen/.conda/envs/python3/bin/python', ['/Users/yuyunchen/PycharmProjects/betanewTools/parseAST/parseServer.py']);
  
-				// workerProcess.stdout.on('data', function (data) {
-				// 	console.log('stdout: ' + data);
-				// });
+				workerProcess.stdout.on('data', function (data) {
+					console.log('stdout: ' + data);
+				});
 				
-				// workerProcess.stderr.on('data', function (data) {
-				// 	console.log('stderr: ' + data);
-				// });
+				workerProcess.stderr.on('data', function (data) {
+					console.log('stderr: ' + data);
+				});
 				
-				// workerProcess.on('close', function (code) {
-				// 	console.log('子进程已退出，退出码 '+code);
-				// });
+				workerProcess.on('close', function (code) {
+					console.log('子进程已退出，退出码 '+code);
+				});
 				// /Users/yuyunchen/.conda/envs/python3/bin/python /Users/yuyunchen/PycharmProjects/betanewTools/parseAST/parseServer.py
 			}
 		});
