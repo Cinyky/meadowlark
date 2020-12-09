@@ -39,9 +39,18 @@ redis.hget = async(key, field)=>{
     return doc;
 }
 
-redis.hset = async(key, field)=>{
+redis.hgetall = async(key)=>{
     doc = await new Promise((resolve)=>{
-        redis_client.hset(key, field, function(err,res){
+        redis_client.hgetall(key, function(err,res){
+            return resolve(res);
+        });
+    });
+    return doc;
+}
+
+redis.hset = async(key, field, value)=>{
+    doc = await new Promise((resolve)=>{
+        redis_client.hset(key, field, value, function(err,res){
             return resolve(res);
         });
     });

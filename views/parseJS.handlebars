@@ -1,7 +1,10 @@
 <div class="formContainer">
-    <form class="form-horizontal newsletterForm" role="form" 
+    
+    {{#if url}}
+	    <div>当前任务：{{url}}，请等待任务执行完毕</div>
+    {{else}}
+        <form class="form-horizontal newsletterForm" role="form"
             action="/parseTask" method="POST">
-        {{task}}
         <div class="form-group">
             <div class="col-sm-4">
                 <label for="fieldName" class="col-sm-2 control-label">需要解析的URL：</label>
@@ -14,6 +17,8 @@
             </div>
         </div>
     </form>
+    {{/if}}
+    
 
 
 </div>
@@ -41,6 +46,7 @@
                         } else {
                             $resultContainer.html('There was a problem.');
                         }
+                        setTimeout(location.reload(), 2000)
                     },
                     error: function(){
                         $resultContainer.html('There was a problem.');
@@ -48,5 +54,8 @@
                 });
             });
         });
+
+
+
     </script>
 {{/section}}

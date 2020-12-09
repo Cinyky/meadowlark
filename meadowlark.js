@@ -169,16 +169,17 @@ app.post('/parse', function(req, res){
         res.redirect(303, '/thank-you');
     }
 });
-
 app.get('/parseJS', function(req, res){
     // we will learn about CSRF later...for now, we just
 	// provide a dummy value
-	Cache.get("Task").then(function(resp){
-		console.log("Task resp: " + resp);
+	Cache.hgetall("Task").then(function(resp){
+		console.log(`hgetall:${JSON.stringify(resp)}`);
+		resp.taskTimeStr = new Date(parseInt(resp.time).toLocaleString().replace(/:\d{1,2}$/,' ');
+		console.log(resp.taskTimeStr)
 		if (resp) {
-			res.render('parseJS', { task: resp });
+			res.render('parseJS', resp);
 		} else {
-			res.render('parseJS', { task: resp });
+			res.render('parseJS', {});
 		}
 	})
 });
@@ -188,12 +189,13 @@ app.post('/parseTask', function(req, res){
 	console.log(param);
     if(req.xhr || req.accepts('json,html')==='json'){
 		// if there were an error, we would send { error: 'error description' }
-		return Cache.get("Task").then(function(resp){
-			console.log("param.url: " + param.url + " resp: " + resp);
+		return Cache.hgetall("Task").then(function(resp){
+			console.log(`param.url:${param.url} hgetall:${JSON.stringify(resp)}`);
 			if (resp) {
 				res.send({ success: true , result: "任务["+param.url+"]已经提交，请耐心等待"});
 			} else {
-				Cache.set("Task", param.url);
+				Cache.hset("Task", "url", param.url);
+				Cache.hset("Task", "time", Date.now());
 				res.send({ success: true , result: "任务 ["+param.url+"] 提交成功"});
 			}
 		});
