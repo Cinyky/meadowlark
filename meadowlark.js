@@ -170,6 +170,12 @@ app.post('/parse', function(req, res){
     }
 });
 
+app.get('/parseJS', function(req, res){
+    // we will learn about CSRF later...for now, we just
+    // provide a dummy value
+    res.render('parseJS', { csrf: 'CSRF token goes here' });
+});
+
 app.get('/jquery-test', function(req, res){
 	res.render('jquery-test');
 });
