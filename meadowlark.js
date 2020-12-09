@@ -2,6 +2,7 @@ var express = require('express'),
 	formidable = require('formidable'),
 	jqupload = require('jquery-file-upload-middleware');
 
+Cache = require('./cache')
 var app = express();
 
 // set up handlebars view engine
@@ -138,6 +139,35 @@ app.get('/api/tours/:id', function(req,res){
 	} else {
 		res.json({error: 'No such tour exists.'});
 	}
+});
+
+app.get('/api/ast2/', function(req,res){
+	console.log("req.query",req.query);
+	return Cache.hget("EqualMap", req.query.id).then(function(resp){
+        res.json({success: resp});
+	});
+});
+
+app.get('/ast', function(req, res){
+    // we will learn about CSRF later...for now, we just
+    // provide a dummy value
+    res.render('ast', { csrf: 'CSRF token goes here' });
+});
+
+app.post('/parse', function(req, res){
+	var param = req.body;
+	// console.log(param);
+    if(req.xhr || req.accepts('json,html')==='json'){
+		// if there were an error, we would send { error: 'error description' }
+		return Cache.hget("EqualMap", param.id).then(function(resp){
+			console.log("param.id: " + param.id + " resp: " + resp);
+			res.send({ success: true , result: resp});
+		});
+		// res.send(JSON.stringify(result));
+    } else {
+        // if there were an error, we would redirect to an error page
+        res.redirect(303, '/thank-you');
+    }
 });
 
 app.get('/jquery-test', function(req, res){
