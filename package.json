@@ -12,7 +12,7 @@
     "body-parser": "^1.18.3",
     "chrome-remote-interface": "^0.26.1",
     "express": "^4.16.3",
-    "express-handlebars": "^3.0.0",
+    "express-handlebars": "^5.3.1",
     "formidable": "^1.2.1",
     "jquery-file-upload-middleware": "^0.1.8",
     "mongoose": "^5.2.12",
